@@ -2,7 +2,7 @@
 <h1 style="margin-top:0">Valantis product list</h1>
 <p>A simple demonstration app created with Vue 3 (Options API) in Vite and Vuetify - with products API communiction, searching and filtering products.</p>
   
-
+<img src="./src/img/valantis-poster.webp" width="200"/>
 
 
 
