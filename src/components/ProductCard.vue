@@ -2,13 +2,13 @@
     <v-card class="mx-auto product-card" color="red-darken-3" variant="elevated">
         <v-card-item>
             <div>
-                <div class="text-overline mb-1">
-                    {{ product.id }}
+                <div class="text-caption mb-1">
+                    ID: {{ product.id }}
                 </div>
                 <div class="text-h6 mb-1">
                     {{ product.product || "-" }}
                 </div>
-                <div class="text-caption">{{ product.brand || "-" }}</div>
+                <div class="text-caption">Brand: {{ product.brand || "-" }}</div>
             </div>
             <div class="text-overline mb-1">
                 {{ `Price: ${product.price} $` || "-" }}

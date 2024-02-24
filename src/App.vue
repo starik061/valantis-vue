@@ -1,4 +1,5 @@
 <template>
+  <Loader :isLoading="isLoading" />
   <div class="main-container">
     <HeaderBar />
     <MainContent :fullProductsData="fullProductsData" />
@@ -7,23 +8,27 @@
 </template>
 
 <script>
+import Loader from "@/components/Loader.vue";
 import HeaderBar from "@/components/HeaderBar.vue";
 import MainContent from "@/components/MainContent.vue";
 import FooterBar from "@/components/FooterBar.vue";
 
 import { getProductData } from "@/api/index.js"
 export default {
-  components: { HeaderBar, MainContent, FooterBar },
+  components: { Loader, HeaderBar, MainContent, FooterBar },
 
   data() {
     return {
       productIDs: [],
       fullProductsData: [],
+      isLoading: true
     }
   },
 
   async mounted() {
     try {
+      this.isLoading = true;
+
       let response = await getProductData("get_ids", { "limit": 50 });
       this.productIDs = response;
 
@@ -40,11 +45,12 @@ export default {
         }
         return false;
       });
-
+      this.isLoading = false;
       console.log("this.productIDs", this.productIDs);
       console.log("this.fullProductsData", this.fullProductsData);
 
     } catch (error) {
+      this.isLoading = false;
       console.error('Error:', error);
     }
   }
