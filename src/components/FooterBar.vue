@@ -1,5 +1,5 @@
 <template>
-    <Vfooter class="bg-red-darken-4 text-center d-flex flex-column pt-1">
+    <Vfooter class="bg-red-darken-4 text-center d-flex flex-column py-1">
         <div>
             <v-btn v-for="(icon, iconIdx) in icons" :key="iconIdx" class="mx-4" :icon="icon.value" variant="text"
                 @click="goTo(icon.link)">

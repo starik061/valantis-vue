@@ -1,16 +1,13 @@
 <template>
-    <v-card color="grey-lighten-4" flat height="100px" rounded="0">
-        <v-toolbar extended extension-height="100">
-
-            <v-toolbar-title>
-                <ValantisIcon @click="goTo()" class="valantis-logo" />
-            </v-toolbar-title>
-            <v-text-field label="Search product"></v-text-field>
-            <v-btn variant="text" icon="mdi-magnify" @click="fetchAPI"></v-btn>
-            <v-btn variant="text" icon="mdi-filter"></v-btn>
-            <v-spacer></v-spacer>
-        </v-toolbar>
-    </v-card>
+    <v-toolbar class="px-10 py-3">
+        <v-toolbar-title>
+            <ValantisIcon @click="goTo()" class="valantis-logo" />
+        </v-toolbar-title>
+        <v-text-field label="Search product" variant="outlined" hide-details></v-text-field>
+        <v-btn class="ml-1" variant="text" icon="mdi-magnify" @click="fetchAPI"></v-btn>
+        <v-btn variant="text" icon="mdi-filter"></v-btn>
+        <v-spacer></v-spacer>
+    </v-toolbar>
 </template>
 
 <script>

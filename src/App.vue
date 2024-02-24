@@ -14,6 +14,7 @@ import MainContent from "@/components/MainContent.vue";
 import FooterBar from "@/components/FooterBar.vue";
 
 import { getProductData } from "@/api/index.js"
+
 export default {
   components: { Loader, HeaderBar, MainContent, FooterBar },
 
@@ -26,9 +27,9 @@ export default {
   },
 
   async mounted() {
-    try {
-      this.isLoading = true;
+    this.isLoading = true;
 
+    try {
       let response = await getProductData("get_ids", { "limit": 50 });
       this.productIDs = response;
 
@@ -45,14 +46,15 @@ export default {
         }
         return false;
       });
-      this.isLoading = false;
+
       console.log("this.productIDs", this.productIDs);
       console.log("this.fullProductsData", this.fullProductsData);
 
     } catch (error) {
-      this.isLoading = false;
-      console.error('Error:', error);
+      console.error('Error:', error.message);
     }
+
+    this.isLoading = false;
   }
 }
 </script>
@@ -66,8 +68,6 @@ export default {
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+  margin-top: auto;
 }
 </style>
