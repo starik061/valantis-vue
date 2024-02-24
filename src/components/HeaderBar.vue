@@ -6,7 +6,7 @@
                 <ValantisIcon @click="goTo()" class="valantis-logo" />
             </v-toolbar-title>
             <v-text-field label="Search product"></v-text-field>
-            <v-btn variant="text" icon="mdi-magnify"></v-btn>
+            <v-btn variant="text" icon="mdi-magnify" @click="fetchAPI"></v-btn>
             <v-btn variant="text" icon="mdi-filter"></v-btn>
             <v-spacer></v-spacer>
         </v-toolbar>
@@ -28,6 +28,9 @@ export default {
         goTo() {
             window.open("https://juvelirnyj-lombard.ru", '_blank');
 
+        },
+        fetchAPI() {
+            
         }
     }
 }
