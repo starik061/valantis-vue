@@ -4,7 +4,8 @@
             <ProductCard v-for="product in fullProductsData" :key="product.id" :product="product" />
 
         </div>
-        <v-pagination length="3"></v-pagination>
+        <v-pagination length="3" rounded="circle" active-color="grey-darken-4" :model-value="page"
+            @update:modelValue="changePage"></v-pagination>
 
     </main>
 </template>
@@ -20,7 +21,8 @@ import ProductCard from "@/components/ProductCard.vue";
 
 export default {
     components: { ProductCard },
-    props: ["fullProductsData"],
+    props: ["fullProductsData", "page"],
+    emits: ['pageChanged'],
 
     data() {
         return {
@@ -35,6 +37,9 @@ export default {
     methods: {
         goTo(link) {
             window.open(link, '_blank');
+        },
+        changePage(page) {
+            this.$emit('pageChanged', page)
         }
     }
 }

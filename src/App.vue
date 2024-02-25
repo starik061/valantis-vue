@@ -2,7 +2,7 @@
   <Loader :isLoading="isLoading" />
   <div class="main-container">
     <HeaderBar />
-    <MainContent :fullProductsData="fullProductsData" />
+    <MainContent :fullProductsData="fullProductsData" :page="page" @pageChanged="changePage" />
     <FooterBar class="footer" />
   </div>
 </template>
@@ -22,7 +22,42 @@ export default {
     return {
       productIDs: [],
       fullProductsData: [],
-      isLoading: true
+      isLoading: true,
+      page: 1
+    }
+  },
+  methods: {
+    async changePage(page) {
+      this.page = page;
+      this.fullProductsData = [];
+      this.isLoading = true;
+
+      try {
+        let response = await getProductData("get_ids", { "limit": 50 });
+        this.productIDs = response;
+
+        response = await getProductData("get_items", { "ids": this.productIDs });
+
+        // Фильтруем response, оставляя только первый объект с уникальным id
+        const uniqIds = new Set();
+
+        this.fullProductsData = response.filter(product => {
+          if (!uniqIds.has(product.id)) {
+            uniqIds.add(product.id);
+            this.fullProductsData.push(product);
+            return true;
+          }
+          return false;
+        });
+
+        console.log("this.productIDs", this.productIDs);
+        console.log("this.fullProductsData", this.fullProductsData);
+
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+
+      this.isLoading = false;
     }
   },
 
