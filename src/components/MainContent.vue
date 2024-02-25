@@ -4,8 +4,8 @@
             <ProductCard v-for="product in fullProductsData" :key="product.id" :product="product" />
 
         </div>
-        <v-pagination length="3" rounded="circle" active-color="grey-darken-4" :model-value="page"
-            @update:modelValue="changePage"></v-pagination>
+        <v-pagination :length="19" :total-visible="3" :start="calcStartPaginationNumber()" rounded="circle"
+            active-color="grey-darken-4" :model-value="page" @update:modelValue="changePage"></v-pagination>
 
     </main>
 </template>
@@ -40,6 +40,15 @@ export default {
         },
         changePage(page) {
             this.$emit('pageChanged', page)
+        },
+        calcStartPaginationNumber() {
+
+            if (this.page === 1) {
+                this.page
+            } else {
+
+                return this.page - 1;
+            }
         }
     }
 }
