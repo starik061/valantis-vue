@@ -23,6 +23,7 @@ export default {
       productIDs: [],
       fullProductsData: [],
       isLoading: true,
+      isRetryAttempted: false,
       page: 1
     }
   },
@@ -86,16 +87,25 @@ export default {
         }
 
       } catch (error) {
-        console.error('Error:', error.message);
+        console.error('Произошла ошибка:', error.message);
+
+        // Проверяем, была ли уже сделана попытка повторного запроса
+        if (!this.isRetryAttempted) {
+          console.log('Повторный запрос...');
+          this.isRetryAttempted = true;
+
+          await this.getProducts();
+        } else {
+          console.error('Повторная попытка выполнения запроса не удалась');
+        }
+
+        this.isLoading = false;
       }
-
-      this.isLoading = false;
     }
-
   },
 
   async mounted() {
-    this.getProducts()
+    await this.getProducts()
   }
 }
 </script>
