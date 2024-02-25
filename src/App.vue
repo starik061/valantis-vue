@@ -98,9 +98,8 @@ export default {
         } else {
           console.error('Повторная попытка выполнения запроса не удалась');
         }
-
-        this.isLoading = false;
       }
+      this.isLoading = false;
     }
   },
 
