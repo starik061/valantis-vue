@@ -4,6 +4,7 @@
     <HeaderBar />
     <MainContent v-if="!isLoading" :fullProductsData="fullProductsData" :page="page" @pageChanged="changePage" />
     <FooterBar class="footer" />
+
   </div>
 </template>
 
@@ -105,6 +106,7 @@ export default {
 
   async mounted() {
     await this.getProducts()
+
   }
 }
 </script>
