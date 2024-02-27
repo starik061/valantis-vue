@@ -22,13 +22,6 @@
 <script>
 export default {
     props: ["product"],
-
-    computed: {
-        getImageURL() {
-            return `data:text/html,<style>body{background:url(${this.product.image}) center/cover
-                    no-repeat;padding:0;margin:0;overflow:hidden}`
-        }
-    },
 }
 </script>
 
