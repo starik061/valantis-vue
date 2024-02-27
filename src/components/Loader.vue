@@ -1,9 +1,8 @@
 <template>
-    <div class="text-center">
-        <v-overlay :model-value="isLoading" class="align-center justify-center" scroll-strategy="block" opacity="0.1">
-            <v-progress-circular color="red" indeterminate size="64"></v-progress-circular>
-        </v-overlay>
-    </div>
+    <v-overlay :model-value="isLoading" class="align-center justify-center" scroll-strategy="block" opacity="0.1"
+        :persistent="true">
+        <v-progress-circular color="red" indeterminate size="64"></v-progress-circular>
+    </v-overlay>
 </template>
 
 <script>
