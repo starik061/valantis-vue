@@ -92,7 +92,7 @@ export default {
 
         // ДОбавляем к инфе о товарах рандомные картинки.
 
-        const imgDataResponse = await getProductImages(this.fullProductsData.length);
+        const imgDataResponse = await getProductImages(this.fullProductsData.length, this.page);
 
         this.fullProductsData.forEach((product, productIndex) => {
           console.log("img")

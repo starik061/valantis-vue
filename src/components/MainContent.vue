@@ -56,12 +56,31 @@ export default {
 
 <style lang="scss" scoped>
 .product-cards-wrapper {
-    padding: 10px;
+    width: 320px;
+    padding: 10px 0;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
     align-content: flex-start;
     flex-wrap: wrap;
     gap: 10px;
+    margin: 0 auto;
+
+    @media screen and (min-width: 710px) {
+        width: 680px;
+    }
+
+    @media screen and (min-width: 1010px) {
+        width: 980px;
+    }
+
+    @media screen and (min-width: 1340px) {
+        width: 1310px;
+    }
+
+    @media screen and (min-width: 1670px) {
+        width: 1640px;
+    }
+
 }
 </style>
