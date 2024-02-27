@@ -106,7 +106,7 @@ export default {
 
   async mounted() {
     await this.getProducts()
-
+    // getProductData("get_fields")
   }
 }
 </script>

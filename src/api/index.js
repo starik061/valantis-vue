@@ -1,3 +1,3 @@
-import { getProductData } from './api'
+import { getProductData } from './valantisAPI'
 
 export { getProductData }

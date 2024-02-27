@@ -4,7 +4,7 @@
             <ValantisIcon @click="goTo()" class="valantis-logo" />
         </v-toolbar-title>
         <v-text-field label="Search product" variant="outlined" hide-details @click="playAudio()"></v-text-field>
-        <v-btn class="ml-1" variant="text" icon="mdi-magnify" @click="fetchAPI"></v-btn>
+        <v-btn class="ml-1" variant="text" icon="mdi-magnify"></v-btn>
         <v-btn variant="text" icon="mdi-filter"></v-btn>
         <v-spacer></v-spacer>
     </v-toolbar>
