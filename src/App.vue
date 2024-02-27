@@ -2,7 +2,13 @@
   <Loader :isLoading="isLoading" />
   <div class="main-container">
     <HeaderBar @filtration="doProductsFiltration" />
-    <MainContent v-if="!isLoading" :fullProductsData="fullProductsData" :page="page" @pageChanged="changePage" />
+    <template v-if="fullProductsData.length > 0 || !isFiltration">
+      <MainContent v-if="!isLoading" :fullProductsData="fullProductsData" :page="page" @pageChanged="changePage" />
+    </template>
+    <template v-else>
+      <div v-if="!isLoading">Товары отсутствуют</div>
+    </template>
+
     <FooterBar class="footer" />
 
   </div>
@@ -97,13 +103,14 @@ export default {
         }
 
         // ДОбавляем к инфе о товарах рандомные картинки.
+        if (this.fullProductsData.length && Array.isArray(this.fullProductsData) && this.fullProductsData.length > 0) {
+          const imgDataResponse = await getProductImages(this.fullProductsData.length, this.page);
 
-        const imgDataResponse = await getProductImages(this.fullProductsData.length, this.page);
-
-        this.fullProductsData.forEach((product, productIndex) => {
-          product.image = imgDataResponse[productIndex]?.webformatURL
-            ? imgDataResponse[productIndex]?.webformatURL : placeholderImage
-        })
+          this.fullProductsData.forEach((product, productIndex) => {
+            product.image = imgDataResponse[productIndex]?.webformatURL
+              ? imgDataResponse[productIndex]?.webformatURL : placeholderImage
+          })
+        }
       } catch (error) {
         console.error('Произошла ошибка:', error.message);
 
@@ -132,18 +139,22 @@ export default {
         this.isLoading = true;
 
         this.filteredProductIDs = await getProductData("filter", params);
-        this.productIDs = this.filteredProductIDs.slice(0, 50);
 
-        this.fullProductsData = await getProductData("get_items", { "ids": this.productIDs });
+        if (this.filteredProductIDs && Array.isArray(this.filteredProductIDs) && this.fullProductsData.length > 0) {
+          this.productIDs = this.filteredProductIDs.slice(0, 50);
 
-        // ДОбавляем к инфе о товарах рандомные картинки.
+          this.fullProductsData = await getProductData("get_items", { "ids": this.productIDs });
 
-        const imgDataResponse = await getProductImages(this.fullProductsData.length, this.page);
+          // ДОбавляем к инфе о товарах рандомные картинки.
+          if (this.fullProductsData.length && Array.isArray(this.fullProductsData) && this.fullProductsData.length > 0) {
+            const imgDataResponse = await getProductImages(this.fullProductsData.length, this.page);
 
-        this.fullProductsData.forEach((product, productIndex) => {
-          product.image = imgDataResponse[productIndex]?.webformatURL
-            ? imgDataResponse[productIndex]?.webformatURL : placeholderImage
-        })
+            this.fullProductsData.forEach((product, productIndex) => {
+              product.image = imgDataResponse[productIndex]?.webformatURL
+                ? imgDataResponse[productIndex]?.webformatURL : placeholderImage
+            })
+          }
+        }
 
       } catch (error) {
         console.error('Произошла ошибка:', error.message);

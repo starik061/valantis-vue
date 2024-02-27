@@ -53,7 +53,7 @@ export default {
             audio.play();
         },
         changeFilterQuery(e) {
-            this.filterQuery = e
+            this.filterQuery = e.trim();
         },
         changeFilterType(e) {
             this.choosenFilterType = e

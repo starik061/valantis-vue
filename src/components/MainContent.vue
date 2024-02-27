@@ -7,6 +7,7 @@
         </div>
         <v-pagination :length="19" :total-visible="3" :start="calcStartPaginationNumber()" rounded="circle"
             active-color="grey-darken-4" :model-value="page" @update:modelValue="changePage"></v-pagination>
+
     </main>
 </template>
 
