@@ -5,8 +5,8 @@
         </v-toolbar-title>
         <v-text-field class="d-block text-field" label="Search product" variant="outlined" hide-details
             :model-value="filterQuery" @update:modelValue="changeFilterQuery" @click="playAudio()"></v-text-field>
-        <v-btn class="ml-1 mr-3 bg-red-darken-4" variant="text" icon="mdi-magnify"
-            :disabled="isFilterButtonDisabled"></v-btn>
+        <v-btn class="ml-1 mr-3 bg-red-darken-4" variant="text" icon="mdi-magnify" :disabled="isFilterButtonDisabled"
+            @click.prevent="emitFiltration"></v-btn>
         <label for="filter-select">
             <v-icon class="pr-3" variant="text" icon="mdi-filter"></v-icon>
         </label>
@@ -29,7 +29,7 @@ import helloToValantisGuys from "@/assets/simply-the-best.mp3";
 
 export default {
     components: { ValantisIcon },
-
+    emits: ["filtration"],
     data() {
         return {
             filterTypes: ['по названию', 'по цене', 'по бренду'],
@@ -57,6 +57,23 @@ export default {
         },
         changeFilterType(e) {
             this.choosenFilterType = e
+        },
+        emitFiltration() {
+            let filtrationField = "product";
+            switch (this.choosenFilterType) {
+                case "по цене": {
+                    filtrationField = "price";
+                    break;
+                }
+                case "по бренду": {
+                    filtrationField = "brand";
+                    break;
+                }
+                default: {
+                    filtrationField = "product";
+                }
+            }
+            this.$emit("filtration", { filtrationField, filterQuery: this.filterQuery })
         }
     },
 

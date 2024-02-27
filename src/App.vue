@@ -1,7 +1,7 @@
 <template>
   <Loader :isLoading="isLoading" />
   <div class="main-container">
-    <HeaderBar />
+    <HeaderBar @filtration="doProductsFiltration" />
     <MainContent v-if="!isLoading" :fullProductsData="fullProductsData" :page="page" @pageChanged="changePage" />
     <FooterBar class="footer" />
 
@@ -26,17 +26,23 @@ export default {
   data() {
     return {
       productIDs: [],
+      filteredProductIDs: [],
       fullProductsData: [],
       isLoading: true,
       isRetryAttempted: false,
-      page: 1
+      page: 1,
+      isFiltration: false,
     }
   },
   methods: {
     async changePage(page) {
       this.page = page;
       this.fullProductsData = [];
-      this.getProducts()
+      if (!this.isFiltration) {
+        this.getProducts()
+      } else {
+        this.doProductsFiltration()
+      }
     },
 
     async getProducts() {
@@ -81,7 +87,7 @@ export default {
           oneFullProductResponse.filter(product => {
             if (!uniqIds.has(product.id)) {
               uniqIds.add(product.id);
-              this.productIDs.push(response);
+              this.productIDs.push(product);
               this.fullProductsData.push(product);
               return true;
             }
@@ -112,13 +118,52 @@ export default {
         }
       }
       this.isLoading = false;
-    }
+    },
+
+    async doProductsFiltration({ filtrationField, filterQuery }) {
+      this.isFiltration = true;
+      let params = {
+        [filtrationField]: filterQuery,
+      }
+      // let offset = (this.page - 1) * 50;
+      // let limit = 50;
+
+      try {
+        this.isLoading = true;
+
+        this.filteredProductIDs = await getProductData("filter", params);
+        this.productIDs = this.filteredProductIDs.slice(0, 50);
+
+        this.fullProductsData = await getProductData("get_items", { "ids": this.productIDs });
+
+        // ДОбавляем к инфе о товарах рандомные картинки.
+
+        const imgDataResponse = await getProductImages(this.fullProductsData.length, this.page);
+
+        this.fullProductsData.forEach((product, productIndex) => {
+          product.image = imgDataResponse[productIndex]?.webformatURL
+            ? imgDataResponse[productIndex]?.webformatURL : placeholderImage
+        })
+
+      } catch (error) {
+        console.error('Произошла ошибка:', error.message);
+
+        // Проверяем, была ли уже сделана попытка повторного запроса
+        if (!this.isRetryAttempted) {
+          console.log('Повторный запрос...');
+          this.isRetryAttempted = true;
+
+          await this.doProductsFiltration();
+        } else {
+          console.error('Повторная попытка выполнения запроса не удалась');
+        }
+      }
+      this.isLoading = false;
+    },
   },
 
   async mounted() {
     await this.getProducts()
-    // getProductData("get_fields")
-
   }
 }
 </script>

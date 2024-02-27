@@ -68,7 +68,7 @@ export default {
     width: 320px;
     padding: 10px 0;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
     align-content: flex-start;
     flex-wrap: wrap;
