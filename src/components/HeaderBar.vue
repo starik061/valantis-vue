@@ -56,6 +56,7 @@ export default {
         },
         playAudio() {
             const audio = this.$refs.audio;
+            // audio.pause();
             audio.src = helloToValantisGuys;
             audio.play();
         },
