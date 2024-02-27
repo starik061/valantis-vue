@@ -3,8 +3,9 @@
         <v-toolbar-title>
             <ValantisIcon @click="goTo()" class="valantis-logo" />
         </v-toolbar-title>
-        <v-text-field class="d-block text-field" label="Search product" variant="outlined" hide-details
-            :model-value="filterQuery" @update:modelValue="changeFilterQuery" @click="playAudio()"></v-text-field>
+        <v-text-field class="d-block text-field" label="Search product" variant="outlined" :type="getSearchInputType()"
+            hide-details :model-value="filterQuery" @update:modelValue="changeFilterQuery"
+            @click="playAudio()"></v-text-field>
         <v-btn class="ml-1 mr-3 bg-red-darken-4" variant="text" icon="mdi-magnify" :disabled="isFilterButtonDisabled"
             @click.prevent="emitFiltration"></v-btn>
         <label for="filter-select">
@@ -44,6 +45,12 @@ export default {
         }
     },
     methods: {
+        getSearchInputType() {
+            if (this.choosenFilterType === "по цене") {
+                return "number";
+            }
+            return "text"
+        },
         goTo() {
             window.open("https://juvelirnyj-lombard.ru", '_blank');
         },
@@ -54,9 +61,16 @@ export default {
         },
         changeFilterQuery(e) {
             this.filterQuery = e.trim();
+
+            if (this.choosenFilterType === "по цене") {
+                this.filterQuery = Number(this.filterQuery);
+            }
         },
         changeFilterType(e) {
             this.choosenFilterType = e
+            if (this.choosenFilterType === "по цене") {
+                this.filterQuery = "";
+            }
         },
         emitFiltration() {
             let filtrationField = "product";
