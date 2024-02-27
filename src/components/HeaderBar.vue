@@ -3,9 +3,19 @@
         <v-toolbar-title>
             <ValantisIcon @click="goTo()" class="valantis-logo" />
         </v-toolbar-title>
-        <v-text-field label="Search product" variant="outlined" hide-details @click="playAudio()"></v-text-field>
-        <v-btn class="ml-1" variant="text" icon="mdi-magnify"></v-btn>
-        <v-btn variant="text" icon="mdi-filter"></v-btn>
+        <v-text-field class="d-block text-field" label="Search product" variant="outlined" hide-details
+            :model-value="filterQuery" @update:modelValue="changeFilterQuery" @click="playAudio()"></v-text-field>
+        <v-btn class="ml-1 mr-3 bg-red-darken-4" variant="text" icon="mdi-magnify"
+            :disabled="isFilterButtonDisabled"></v-btn>
+        <label for="filter-select">
+            <v-icon class="pr-3" variant="text" icon="mdi-filter"></v-icon>
+        </label>
+
+        <div class="d-block text-field-small">
+            <v-select id="filter-select" label="Тип фильтра" variant="outlined" hide-details :items="filterTypes"
+                :model-value="choosenFilterType" @update:modelValue="changeFilterType">
+            </v-select>
+        </div>
         <v-spacer></v-spacer>
     </v-toolbar>
     <audio class="visually-hidden" type="audio/mpeg" ref="audio" />
@@ -18,22 +28,40 @@ import ValantisIcon from "@/components/icons/IconValantis.vue";
 import helloToValantisGuys from "@/assets/simply-the-best.mp3";
 
 export default {
+    components: { ValantisIcon },
+
     data() {
         return {
-
+            filterTypes: ['по названию', 'по цене', 'по бренду'],
+            choosenFilterType: null,
+            filterQuery: ""
         };
     },
-    components: { ValantisIcon },
+
+    computed: {
+        isFilterButtonDisabled() {
+            return this.filterQuery ? false : true;
+        }
+    },
     methods: {
         goTo() {
             window.open("https://juvelirnyj-lombard.ru", '_blank');
-
         },
         playAudio() {
             const audio = this.$refs.audio;
             audio.src = helloToValantisGuys;
             audio.play();
+        },
+        changeFilterQuery(e) {
+            this.filterQuery = e
+        },
+        changeFilterType(e) {
+            this.choosenFilterType = e
         }
+    },
+
+    created() {
+        this.choosenFilterType = this.filterTypes[0]; // Присваиваем значение после инициализации filterTypes
     }
 }
 </script>
@@ -46,6 +74,15 @@ export default {
     :active,
     :focus {
         opacity: 0.7;
+    }
+}
+
+.text-field {
+    flex-basis: 500px;
+    flex-grow: 0;
+
+    &-small {
+        flex-basis: 150px;
     }
 }
 

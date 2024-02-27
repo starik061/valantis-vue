@@ -95,7 +95,6 @@ export default {
         const imgDataResponse = await getProductImages(this.fullProductsData.length, this.page);
 
         this.fullProductsData.forEach((product, productIndex) => {
-          console.log("img")
           product.image = imgDataResponse[productIndex]?.webformatURL
             ? imgDataResponse[productIndex]?.webformatURL : placeholderImage
         })

@@ -28,7 +28,7 @@ export async function getProductData(dataType, params = {}) {
     action: dataType,
     params: params
   }
-  console.log(import.meta.env)
+
   let response = await axios.post(import.meta.env.VITE_VALANTIS_API_URL, requestBody, { headers })
 
   return response.data.result
