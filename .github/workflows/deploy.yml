@@ -15,7 +15,11 @@ jobs:
         run: |
           npm install
           npm run build
-
+      env:
+        VITE_VALANTIS_PASSWORD: ${{ VITE_VALANTIS_PASSWORD }}
+        VITE_VALANTIS_API_URL: ${{ VITE_VALANTIS_API_URL }}
+        VITE_PIXABY_KEY: ${{ secrets.VITE_PIXABY_KEY }}
+        
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
