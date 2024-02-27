@@ -1,6 +1,7 @@
 {
   "name": "valantis-vue",
   "version": "0.0.0",
+  "homepage": "https://starik061.github.io/valantis-vue/",
   "private": true,
   "type": "module",
   "scripts": {
