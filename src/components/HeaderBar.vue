@@ -8,12 +8,14 @@
         <v-btn variant="text" icon="mdi-filter"></v-btn>
         <v-spacer></v-spacer>
     </v-toolbar>
-    <audio class="visually-hidden" src="../../public/simply-the-best.mp3" type="audio/mpeg" controls loop ref="audio" />
+    <audio class="visually-hidden" type="audio/mpeg" ref="audio" />
 </template>
 
 <script>
 
 import ValantisIcon from "@/components/icons/IconValantis.vue";
+
+import helloToValantisGuys from "@/assets/simply-the-best.mp3";
 
 export default {
     data() {
@@ -29,9 +31,8 @@ export default {
         },
         playAudio() {
             const audio = this.$refs.audio;
+            audio.src = helloToValantisGuys;
             audio.play();
-
-
         }
     }
 }

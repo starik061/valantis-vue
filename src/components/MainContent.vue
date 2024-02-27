@@ -1,12 +1,12 @@
 <template>
+    <audio class="visually-hidden" type="audio/mpeg" ref="audio" />
     <main>
-        <div class="product-cards-wrapper">
+        <div class="product-cards-wrapper" @click="playAudio()">
             <ProductCard v-for="product in fullProductsData" :key="product.id" :product="product" />
 
         </div>
         <v-pagination :length="19" :total-visible="3" :start="calcStartPaginationNumber()" rounded="circle"
             active-color="grey-darken-4" :model-value="page" @update:modelValue="changePage"></v-pagination>
-
     </main>
 </template>
 
@@ -16,6 +16,8 @@ import { shallowRef } from "vue";
 import telegramIcon from "@/components/icons/IconTelegram.vue"
 import githubIcon from "@/components/icons/IconGithub.vue"
 import linkedinIcon from "@/components/icons/IconLinkedin.vue"
+
+import productClickSound from "@/assets/product_click.mp3"
 
 import ProductCard from "@/components/ProductCard.vue";
 
@@ -49,6 +51,13 @@ export default {
 
                 return this.page - 1;
             }
+        },
+        playAudio() {
+            const audio = this.$refs.audio;
+            audio.src = productClickSound;
+            audio.play();
+
+
         }
     }
 }
@@ -81,6 +90,19 @@ export default {
     @media screen and (min-width: 1670px) {
         width: 1640px;
     }
+}
 
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
 }
 </style>
