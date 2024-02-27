@@ -41,7 +41,6 @@ export default {
 
     async getProducts() {
       this.isLoading = true;
-
       let offset = (this.page - 1) * 50;
       let limit = 50;
       let params = {
@@ -89,17 +88,17 @@ export default {
             offset += 1;
             return false;
           });
-
-          // ДОбавляем к инфе о товарах рандомные картинки.
-
-          const imgDataResponse = await getProductImages(this.fullProductsData.length);
-
-          this.fullProductsData.forEach((product, productIndex) => {
-            product.image = imgDataResponse[productIndex]?.webformatURL
-              ? imgDataResponse[productIndex]?.webformatURL : placeholderImage
-          })
         }
 
+        // ДОбавляем к инфе о товарах рандомные картинки.
+
+        const imgDataResponse = await getProductImages(this.fullProductsData.length);
+
+        this.fullProductsData.forEach((product, productIndex) => {
+          console.log("img")
+          product.image = imgDataResponse[productIndex]?.webformatURL
+            ? imgDataResponse[productIndex]?.webformatURL : placeholderImage
+        })
       } catch (error) {
         console.error('Произошла ошибка:', error.message);
 
