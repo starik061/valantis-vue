@@ -1,5 +1,6 @@
 <template>
     <v-card class="mx-auto product-card" color="red-darken-3" variant="elevated">
+        <v-img cover height="150" :src="product.image"></v-img>
         <v-card-item>
             <div>
                 <div class="text-caption mb-1">

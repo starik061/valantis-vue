@@ -14,7 +14,11 @@ import HeaderBar from "@/components/HeaderBar.vue";
 import MainContent from "@/components/MainContent.vue";
 import FooterBar from "@/components/FooterBar.vue";
 
-import { getProductData } from "@/api/index.js"
+import { getProductData, getProductImages } from "@/api/index.js"
+
+import placeholderImage from "@/assets/placeholder_image.jpg";
+
+
 
 export default {
   components: { Loader, HeaderBar, MainContent, FooterBar },
@@ -85,6 +89,15 @@ export default {
             offset += 1;
             return false;
           });
+
+          // ДОбавляем к инфе о товарах рандомные картинки.
+
+          const imgDataResponse = await getProductImages(this.fullProductsData.length);
+
+          this.fullProductsData.forEach((product, productIndex) => {
+            product.image = imgDataResponse[productIndex]?.webformatURL
+              ? imgDataResponse[productIndex]?.webformatURL : placeholderImage
+          })
         }
 
       } catch (error) {
@@ -107,6 +120,7 @@ export default {
   async mounted() {
     await this.getProducts()
     // getProductData("get_fields")
+
   }
 }
 </script>
