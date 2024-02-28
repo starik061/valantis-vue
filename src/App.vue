@@ -3,7 +3,8 @@
   <div class="main-container">
     <HeaderBar @filtration="doProductsFiltration" />
     <template v-if="fullProductsData.length > 0 || !isFiltration">
-      <MainContent v-if="!isLoading" :fullProductsData="fullProductsData" :page="page" @pageChanged="changePage" />
+      <MainContent v-if="!isLoading" :fullProductsData="fullProductsData" :page="page" :totalPages="totalPages"
+        @pageChanged="changePage" />
     </template>
     <template v-else>
       <div v-if="!isLoading">Товары отсутствуют</div>
@@ -38,6 +39,7 @@ export default {
       isRetryAttempted: false,
       page: 1,
       isFiltration: false,
+      totalPages: 0
     }
   },
   methods: {
@@ -45,13 +47,13 @@ export default {
       this.page = page;
       this.fullProductsData = [];
       if (!this.isFiltration) {
-        this.getProducts()
+        this.getBasicProducts()
       } else {
         this.doProductsFiltration()
       }
     },
 
-    async getProducts() {
+    async getBasicProducts() {
       this.isLoading = true;
       let offset = (this.page - 1) * 50;
       let limit = 50;
@@ -60,7 +62,11 @@ export default {
       }
 
       try {
-        let response = await getProductData("get_ids", params);
+        let response = await getProductData("get_ids");
+        this.totalPages = response.length;
+
+        response.length = limit;
+
         this.productIDs = response;
 
         response = await getProductData("get_items", { "ids": this.productIDs });
@@ -119,7 +125,7 @@ export default {
           console.log('Повторный запрос...');
           this.isRetryAttempted = true;
 
-          await this.getProducts();
+          await this.getBasicProducts();
         } else {
           console.error('Повторная попытка выполнения запроса не удалась');
         }
@@ -174,7 +180,7 @@ export default {
   },
 
   async mounted() {
-    await this.getProducts()
+    await this.getBasicProducts()
   }
 }
 </script>
