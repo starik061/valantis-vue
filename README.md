@@ -6,4 +6,4 @@
 
 
 
-<p>Used technology stack: <b>Vue 3 (Options API), Vuetify, Pinia, SCSS.</b></p>
+<p>Used technology stack: <b>Vue 3 (Options API), Vuetify, SCSS.</b></p>
