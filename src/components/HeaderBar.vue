@@ -4,8 +4,8 @@
             <ValantisIcon @click="goTo()" class="valantis-logo" />
         </v-toolbar-title>
         <v-text-field class="d-block text-field" label="Search product" variant="outlined" :type="getSearchInputType()"
-            hide-details :model-value="filterQuery" @update:modelValue="changeFilterQuery"
-            @click="playAudio()"></v-text-field>
+            hide-details :model-value="filterQuery" @update:modelValue="changeFilterQuery" @click="playAudio()"
+            @keyup.enter="emitFiltration"></v-text-field>
         <v-btn class="ml-1 mr-3 bg-red-darken-4" variant="text" icon="mdi-magnify" :disabled="isFilterButtonDisabled"
             @click.prevent="emitFiltration"></v-btn>
         <label for="filter-select">
