@@ -1,7 +1,7 @@
 <template>
   <Loader :isLoading="isLoading" />
   <div class="main-container">
-    <HeaderBar @filtration="getFilteredProducts" />
+    <HeaderBar @filtration="(filtParms) => { this.page = 1; getFilteredProducts(filtParms) }" />
     <template v-if="fullProductsData.length > 0">
       <MainContent v-if="!isLoading" :fullProductsData="fullProductsData" :page="page" :totalPages="totalPages"
         @pageChanged="changePage" />
@@ -148,7 +148,7 @@ export default {
       try {
         this.filteredProductIDs = await getProductData("filter", params);
 
-        if (this.filteredProductIDs && Array.isArray(this.filteredProductIDs) && this.fullProductsData.length > 0) {
+        if (this.filteredProductIDs && Array.isArray(this.filteredProductIDs)) {
           this.totalPages = Math.ceil(this.filteredProductIDs.length / 50);
           this.productIDs = this.filteredProductIDs.slice(offset, offset + limit);
 
