@@ -7,7 +7,7 @@
         @pageChanged="changePage" />
     </template>
     <template v-else>
-      <div v-if="!isLoading">Товары отсутствуют</div>
+      <div v-if="!isLoading" class="bg-red-darken-4 text-center d-flex flex-column py-1">Товары отсутствуют</div>
     </template>
 
     <FooterBar class="footer" />
