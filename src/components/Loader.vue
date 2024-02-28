@@ -11,7 +11,5 @@ export default {
         isLoading: Boolean
     }
 }
-
 </script>
-
-<style lang="scss" scoped></style>
+embellishment

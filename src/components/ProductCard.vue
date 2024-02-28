@@ -1,7 +1,8 @@
 <template>
     <v-lazy :options="{ 'threshold': 0.5 }" transition="fade-transition">
         <v-card class="mx-auto product-card" color="red-darken-3" variant="elevated">
-            <v-img cover height="150" :src="product.image" crossorigin loading="lazy"></v-img>
+            <v-img cover height="150" :src="product.image" alt="Valantis jewelry product" crossorigin
+                loading="lazy"></v-img>
             <v-card-item>
                 <div>
                     <div class="text-caption mb-1 no-overflow">

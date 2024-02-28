@@ -3,11 +3,9 @@
     <main>
         <div class="product-cards-wrapper" @click="playAudio()">
             <ProductCard v-for="product in fullProductsData" :key="product.id" :product="product" />
-
         </div>
         <v-pagination :length="totalPages" :total-visible="3" :start="calcStartPaginationNumber()" rounded="circle"
             active-color="grey-darken-4" :model-value="page" @update:modelValue="changePage"></v-pagination>
-
     </main>
 </template>
 
@@ -45,11 +43,9 @@ export default {
             this.$emit('pageChanged', page)
         },
         calcStartPaginationNumber() {
-
             if (this.page === 1) {
                 this.page
             } else {
-
                 return this.page - 1;
             }
         },
@@ -57,8 +53,6 @@ export default {
             const audio = this.$refs.audio;
             audio.src = productClickSound;
             audio.play();
-
-
         }
     }
 }
@@ -100,10 +94,8 @@ export default {
     margin: -1px;
     border: 0;
     padding: 0;
-
     white-space: nowrap;
     clip-path: inset(100%);
     clip: rect(0 0 0 0);
     overflow: hidden;
-}
-</style>
+}</style>

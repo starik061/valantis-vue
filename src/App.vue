@@ -1,11 +1,14 @@
 <template>
   <Loader :isLoading="isLoading" />
+
   <div class="main-container">
     <HeaderBar @filtration="(filtParms) => { this.page = 1; getFilteredProducts(filtParms) }" />
+
     <template v-if="fullProductsData.length > 0">
       <MainContent v-if="!isLoading" :fullProductsData="fullProductsData" :page="page" :totalPages="totalPages"
         @pageChanged="changePage" />
     </template>
+
     <template v-else>
       <div v-if="!isLoading" class="bg-red-darken-4 text-center d-flex flex-column py-1">Товары отсутствуют</div>
     </template>
@@ -25,8 +28,6 @@ import { getProductData, getProductImages } from "@/api/index.js"
 
 import placeholderImage from "@/assets/placeholder_image.jpg";
 
-
-
 export default {
   components: { Loader, HeaderBar, MainContent, FooterBar },
 
@@ -43,6 +44,7 @@ export default {
       filtrationParams: {}
     }
   },
+
   methods: {
     async changePage(page) {
       this.page = page;
@@ -55,13 +57,13 @@ export default {
     },
 
     async getBasicProducts() {
-      this.isLoading = true;
       let offset = (this.page - 1) * 50;
       let limit = 50;
       let params = {
         offset, limit
       }
 
+      this.isLoading = true;
       try {
         let response = await getProductData("get_ids");
         this.totalPages = Math.ceil(response.length / 50);
@@ -125,7 +127,6 @@ export default {
         if (!this.isRetryAttempted) {
           console.log('Повторный запрос...');
           this.isRetryAttempted = true;
-
           await this.getBasicProducts();
         } else {
           console.error('Повторная попытка выполнения запроса не удалась');
@@ -140,8 +141,8 @@ export default {
       let params = {
         [filtrationField]: filterQuery,
       }
-      let offset = (this.page - 1) * 50;
       let limit = 50;
+      let offset = (this.page - 1) * limit;
 
       this.isLoading = true;
 
@@ -150,6 +151,7 @@ export default {
 
         if (this.filteredProductIDs && Array.isArray(this.filteredProductIDs)) {
           this.totalPages = Math.ceil(this.filteredProductIDs.length / 50);
+
           this.productIDs = this.filteredProductIDs.slice(offset, offset + limit);
 
           this.fullProductsData = await getProductData("get_items", { "ids": this.productIDs });
@@ -164,7 +166,6 @@ export default {
             })
           }
         }
-
       } catch (error) {
         console.error('Произошла ошибка:', error.message);
 
