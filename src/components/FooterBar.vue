@@ -12,7 +12,7 @@
 
         <v-divider></v-divider>
 
-        <div class="text-body-2">
+        <div class="text-body-2 pt-1">
             {{ new Date().getFullYear() }} - developed for Valantis
         </div>
     </Vfooter>
