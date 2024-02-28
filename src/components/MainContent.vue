@@ -44,11 +44,8 @@ export default {
         },
         calcStartPaginationNumber() {
 
-            if (this.page === 1) {
-                return this.page
-            }
-            if (this.page === this.totalPages) {
-                return (this.page - 3)
+            if (this.page === 1 || this.page === this.totalPages || this.page === this.totalPages - 1) {
+                return 1
             }
 
             return this.page - 1;
