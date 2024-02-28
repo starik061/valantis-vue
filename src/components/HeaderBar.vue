@@ -70,7 +70,7 @@ export default {
         changeFilterType(e) {
             this.choosenFilterType = e
             if (this.choosenFilterType === "по цене") {
-                this.filterQuery = "";
+                this.filterQuery = 0;
             }
         },
         emitFiltration() {

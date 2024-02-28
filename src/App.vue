@@ -1,8 +1,8 @@
 <template>
   <Loader :isLoading="isLoading" />
   <div class="main-container">
-    <HeaderBar @filtration="doProductsFiltration" />
-    <template v-if="fullProductsData.length > 0 || !isFiltration">
+    <HeaderBar @filtration="getFilteredProducts" />
+    <template v-if="fullProductsData.length > 0">
       <MainContent v-if="!isLoading" :fullProductsData="fullProductsData" :page="page" :totalPages="totalPages"
         @pageChanged="changePage" />
     </template>
@@ -39,17 +39,18 @@ export default {
       isRetryAttempted: false,
       page: 1,
       isFiltration: false,
-      totalPages: 0
+      totalPages: 0,
+      filtrationParams: {}
     }
   },
   methods: {
     async changePage(page) {
       this.page = page;
-      this.fullProductsData = [];
+      this.isLoading = true;
       if (!this.isFiltration) {
         this.getBasicProducts()
       } else {
-        this.doProductsFiltration()
+        this.getFilteredProducts(this.filtrationParams)
       }
     },
 
@@ -63,7 +64,7 @@ export default {
 
       try {
         let response = await getProductData("get_ids");
-        this.totalPages = response.length;
+        this.totalPages = Math.ceil(response.length / 50);
 
         response.length = limit;
 
@@ -133,21 +134,23 @@ export default {
       this.isLoading = false;
     },
 
-    async doProductsFiltration({ filtrationField, filterQuery }) {
+    async getFilteredProducts({ filtrationField, filterQuery }) {
       this.isFiltration = true;
+      this.filtrationParams = { filtrationField, filterQuery };
       let params = {
         [filtrationField]: filterQuery,
       }
-      // let offset = (this.page - 1) * 50;
-      // let limit = 50;
+      let offset = (this.page - 1) * 50;
+      let limit = 50;
+
+      this.isLoading = true;
 
       try {
-        this.isLoading = true;
-
         this.filteredProductIDs = await getProductData("filter", params);
 
         if (this.filteredProductIDs && Array.isArray(this.filteredProductIDs) && this.fullProductsData.length > 0) {
-          this.productIDs = this.filteredProductIDs.slice(0, 50);
+          this.totalPages = Math.ceil(this.filteredProductIDs.length / 50);
+          this.productIDs = this.filteredProductIDs.slice(offset, offset + limit);
 
           this.fullProductsData = await getProductData("get_items", { "ids": this.productIDs });
 
@@ -170,7 +173,7 @@ export default {
           console.log('Повторный запрос...');
           this.isRetryAttempted = true;
 
-          await this.doProductsFiltration();
+          await this.getFilteredProducts(this.filtrationParams);
         } else {
           console.error('Повторная попытка выполнения запроса не удалась');
         }
