@@ -43,11 +43,15 @@ export default {
             this.$emit('pageChanged', page)
         },
         calcStartPaginationNumber() {
+
             if (this.page === 1) {
-                this.page
-            } else {
-                return this.page - 1;
+                return this.page
             }
+            if (this.page === this.totalPages) {
+                return (this.page - 3)
+            }
+
+            return this.page - 1;
         },
         playAudio() {
             const audio = this.$refs.audio;
@@ -98,4 +102,5 @@ export default {
     clip-path: inset(100%);
     clip: rect(0 0 0 0);
     overflow: hidden;
-}</style>
+}
+</style>
